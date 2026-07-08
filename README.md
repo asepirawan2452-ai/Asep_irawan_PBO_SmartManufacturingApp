@@ -1,2 +1,4 @@
 # Asep_irawan_PBO_SmartManufacturingApp
-SMART MANUFACTURING ERP SYSTEM 
+NIM		: 2457201003
+Nama	:	Asep Irawan	
+Nama	System	Informasi	:	SMART MANUFACTURING ERP SYSTEM 
