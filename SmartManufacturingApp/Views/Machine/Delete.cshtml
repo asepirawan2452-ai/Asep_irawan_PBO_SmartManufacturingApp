@@ -1,0 +1,42 @@
+@model SmartManufacturingApp.Models.Machine
+
+@{
+    ViewData["Title"] = "Delete Machine";
+}
+
+<div class="container mt-4">
+
+    <div class="alert alert-danger">
+
+        <h4>Delete Machine</h4>
+
+        <p>
+
+            Are you sure you want to delete
+            <strong>@Model.MachineName</strong>?
+
+        </p>
+
+    </div>
+
+    <form asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit"
+                class="btn btn-danger">
+
+            Delete
+
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+
+            Cancel
+
+        </a>
+
+    </form>
+
+</div>

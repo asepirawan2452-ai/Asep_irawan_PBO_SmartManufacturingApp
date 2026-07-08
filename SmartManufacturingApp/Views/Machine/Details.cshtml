@@ -1,0 +1,54 @@
+@model SmartManufacturingApp.Models.Machine
+
+@{
+    ViewData["Title"] = "Machine Details";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-info text-white">
+
+            <h3>Machine Details</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table">
+
+                <tr>
+                    <th>Machine Code</th>
+                    <td>@Model.MachineCode</td>
+                </tr>
+
+                <tr>
+                    <th>Machine Name</th>
+                    <td>@Model.MachineName</td>
+                </tr>
+
+                <tr>
+                    <th>Location</th>
+                    <td>@Model.Location</td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>@Model.Status</td>
+                </tr>
+
+            </table>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
