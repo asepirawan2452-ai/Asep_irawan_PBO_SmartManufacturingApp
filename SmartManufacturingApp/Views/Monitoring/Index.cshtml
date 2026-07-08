@@ -1,0 +1,77 @@
+@using SmartManufacturingApp.Models.Enums
+@model IEnumerable<SmartManufacturingApp.Models.Machine>
+
+@{
+    ViewData["Title"] = "Machine Monitoring";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+            <h3>Machine Monitoring</h3>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Machine</th>
+                        <th>Status</th>
+                        <th>Temperature (°C)</th>
+                        <th>Speed (RPM)</th>
+                        <th>Utilization (%)</th>
+                        <th>Next Maintenance</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.MachineName</td>
+
+                        <td>
+
+                            @switch (item.Status)
+                            {
+                                case MachineStatus.Running:
+                                    <span class="badge bg-success">Running</span>
+                                    break;
+
+                                case MachineStatus.Idle:
+                                    <span class="badge bg-warning text-dark">Idle</span>
+                                    break;
+
+                                case MachineStatus.Maintenance:
+                                    <span class="badge bg-danger">Maintenance</span>
+                                    break;
+                            }
+
+                        </td>
+
+                        <td>@item.Temperature</td>
+
+                        <td>@item.SpeedRPM</td>
+
+                        <td>@item.Utilization %</td>
+
+                        <td>@item.NextMaintenance.ToString("dd/MM/yyyy")</td>
+
+                    </tr>
+                }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div> 
