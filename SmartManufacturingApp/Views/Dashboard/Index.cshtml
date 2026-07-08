@@ -1,0 +1,221 @@
+@model SmartManufacturingApp.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4">
+        Smart Manufacturing Dashboard
+    </h2>
+
+    <!-- KPI -->
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <h5>Total Machines</h5>
+                    <h2>@Model.TotalMachines</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5>Total Operators</h5>
+                    <h2>@Model.TotalOperators</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-warning shadow">
+                <div class="card-body">
+                    <h5>Total Products</h5>
+                    <h2>@Model.TotalProducts</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-danger shadow">
+                <div class="card-body">
+                    <h5>Work Orders</h5>
+                    <h2>@Model.TotalWorkOrders</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Machine Status -->
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Running</h5>
+                    <h2 class="text-success">@Model.RunningMachine</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Idle</h5>
+                    <h2 class="text-warning">@Model.IdleMachine</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Maintenance</h5>
+                    <h2 class="text-danger">@Model.MaintenanceMachine</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Summary + Pie -->
+    <div class="row">
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-header bg-primary text-white">
+                    Production Summary
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Total Target</th>
+                            <td>@Model.TotalTargetQty</td>
+                        </tr>
+
+                        <tr>
+                            <th>Total Actual</th>
+                            <td>@Model.TotalActualQty</td>
+                        </tr>
+
+                        <tr>
+                            <th>Total Reject</th>
+                            <td>@Model.TotalRejectQty</td>
+                        </tr>
+
+                        <tr>
+                            <th>Efficiency</th>
+                            <td>@Model.OverallEfficiency %</td>
+                        </tr>
+
+                    </table>
+
+                    <div class="progress mt-3" style="height:25px">
+
+                        <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width:@Model.OverallEfficiency%">
+                            @Model.OverallEfficiency %
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-header bg-success text-white">
+                    Machine Status
+                </div>
+
+                <div class="card-body">
+                    <canvas id="machineChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Line Chart -->
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+            Production Trend (Last 7 Days)
+        </div>
+
+        <div class="card-body">
+            <canvas id="productionChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+
+<script>
+
+new Chart(document.getElementById('machineChart'),{
+
+    type:'doughnut',
+
+    data:{
+        labels:['Running','Idle','Maintenance'],
+
+        datasets:[{
+            data:[
+                @Model.RunningMachine,
+                @Model.IdleMachine,
+                @Model.MaintenanceMachine
+            ]
+        }]
+    }
+
+});
+
+const productionLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ProductionLabels));
+const productionData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ProductionData));
+
+new Chart(document.getElementById('productionChart'),{
+
+    type:'line',
+
+    data:{
+        labels:productionLabels,
+
+        datasets:[{
+
+            label:'Actual Production',
+
+            data:productionData,
+
+            fill:false,
+
+            tension:0.3
+
+        }]
+    }
+
+});
+
+</script>
+
+}
