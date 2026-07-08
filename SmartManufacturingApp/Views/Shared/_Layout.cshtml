@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"] - Smart Manufacturing</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/SmartManufacturingApp.styles.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg shadow sticky-top">
+
+<div class="container-fluid">
+
+<a class="navbar-brand fw-bold"
+   asp-controller="Dashboard"
+   asp-action="Index">
+
+<i class="fa-solid fa-industry me-2"></i>
+
+Smart Manufacturing
+
+</a>
+
+<button class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#mainMenu">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link"
+   asp-controller="Dashboard"
+   asp-action="Index">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li class="nav-item dropdown">
+
+<a class="nav-link dropdown-toggle"
+   data-bs-toggle="dropdown">
+
+Master
+
+</a>
+
+<ul class="dropdown-menu">
+
+<li>
+
+<a class="dropdown-item"
+   asp-controller="Machine"
+   asp-action="Index">
+
+Machine
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item"
+   asp-controller="Operator"
+   asp-action="Index">
+
+Operator
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item"
+   asp-controller="Product"
+   asp-action="Index">
+
+Product
+
+</a>
+
+</li>
+
+</ul>
+
+</li>
+
+<li class="nav-item dropdown">
+
+<a class="nav-link dropdown-toggle"
+   data-bs-toggle="dropdown">
+
+Production
+
+</a>
+
+<ul class="dropdown-menu">
+
+<li>
+
+<a class="dropdown-item"
+   asp-controller="ProductionOrder"
+   asp-action="Index">
+
+Production Order
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item"
+   asp-controller="Monitoring"
+   asp-action="Index">
+
+Monitoring
+
+</a>
+
+</li>
+
+</ul>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+   asp-controller="Report"
+   asp-action="Index">
+
+Reports
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- OFFCANVAS -->
+
+<div class="offcanvas offcanvas-start bg-dark text-white"
+     tabindex="-1"
+     id="mainMenu">
+
+<div class="offcanvas-header">
+
+<h5>
+
+<i class="fa-solid fa-industry"></i>
+
+Smart Manufacturing
+
+</h5>
+
+<button class="btn-close btn-close-white"
+        data-bs-dismiss="offcanvas">
+
+</button>
+
+</div>
+
+<div class="offcanvas-body">
+
+<ul class="navbar-nav">
+
+<li class="nav-item">
+
+<a class="nav-link text-white"
+   asp-controller="Dashboard"
+   asp-action="Index">
+
+<i class="fa-solid fa-chart-line me-2"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<hr class="text-secondary">
+
+<li class="nav-item">
+
+<a class="nav-link text-white"
+   asp-controller="Machine"
+   asp-action="Index">
+
+<i class="fa-solid fa-industry me-2"></i>
+
+Machine
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link text-white"
+   asp-controller="Operator"
+   asp-action="Index">
+
+<i class="fa-solid fa-user-gear me-2"></i>
+
+Operator
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link text-white"
+   asp-controller="Product"
+   asp-action="Index">
+
+<i class="fa-solid fa-box me-2"></i>
+
+Product
+
+</a>
+
+</li>
+
+<hr class="text-secondary">
+
+<li class="nav-item">
+
+<a class="nav-link text-white"
+   asp-controller="ProductionOrder"
+   asp-action="Index">
+
+<i class="fa-solid fa-list-check me-2"></i>
+
+Production Order
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link text-white"
+   asp-controller="Monitoring"
+   asp-action="Index">
+
+<i class="fa-solid fa-tv me-2"></i>
+
+Monitoring
+
+</a>
+
+</li>
+
+<hr class="text-secondary">
+
+<li class="nav-item">
+
+<a class="nav-link text-white"
+   asp-controller="Report"
+   asp-action="Index">
+
+<i class="fa-solid fa-file-lines me-2"></i>
+
+Reports
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<div class="container mt-4">
+
+<partial name="_Alert"/>
+
+@RenderBody()
+
+</div>
+
+<footer class="border-top mt-5">
+
+<div class="container text-center py-3 text-muted">
+
+© 2026 Smart Manufacturing System
+
+</div>
+
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/js/site.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@await RenderSectionAsync("Scripts", required:false)
+
+</body>
+
+</html>
