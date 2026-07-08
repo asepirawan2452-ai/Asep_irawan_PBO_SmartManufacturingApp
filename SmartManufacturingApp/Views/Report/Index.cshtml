@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Production Reports";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            <h3>Production Reports</h3>
+
+        </div>
+        <div class="mb-3">
+
+            <a asp-action="ExportPdf" class="btn btn-danger">
+                Export PDF
+            </a>
+
+            <a asp-action="ExportExcel" class="btn btn-success">
+                Export Excel
+            </a>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <a asp-action="Daily" class="btn btn-primary w-100 p-4">
+
+                        Daily Report
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <a asp-action="Monthly" class="btn btn-success w-100 p-4">
+
+                        Monthly Report
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <a asp-action="Efficiency" class="btn btn-warning w-100 p-4">
+
+                        Efficiency Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

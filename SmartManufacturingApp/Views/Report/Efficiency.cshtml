@@ -1,0 +1,89 @@
+@model IEnumerable<SmartManufacturingApp.ViewModels.ProductionReportViewModel>
+
+@{
+    ViewData["Title"] = "Production Efficiency";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning">
+
+            <h3>Production Efficiency</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>WO</th>
+
+                        <th>Product</th>
+
+                        <th>Machine</th>
+
+                        <th>Operator</th>
+
+                        <th>Efficiency</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                @foreach(var item in Model)
+                {
+
+                    <tr>
+
+                        <td>@item.WorkOrderNumber</td>
+
+                        <td>@item.ProductName</td>
+
+                        <td>@item.MachineName</td>
+
+                        <td>@item.OperatorName</td>
+
+                        <td>
+
+                            @if(item.Efficiency >= 95)
+                            {
+                                <span class="badge bg-success">
+                                    @item.Efficiency %
+                                </span>
+                            }
+                            else if(item.Efficiency >= 80)
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    @item.Efficiency %
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    @item.Efficiency %
+                                </span>
+                            }
+
+                        </td>
+
+                    </tr>
+
+                }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
