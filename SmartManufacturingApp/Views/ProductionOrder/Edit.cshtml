@@ -1,0 +1,245 @@
+@model SmartManufacturingApp.ViewModels.ProductionOrderViewModel
+
+@{
+    ViewData["Title"] = "Edit Production Order";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning">
+            <h4>Edit Production Order</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Edit" method="post">
+
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <!-- HEADER -->
+                <div class="mb-3">
+                    <label asp-for="WorkOrderNumber"></label>
+                    <input asp-for="WorkOrderNumber" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ProductionDate"></label>
+                    <input asp-for="ProductionDate" type="date" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Machine</label>
+                    <select asp-for="MachineId" asp-items="Model.Machines" class="form-select">
+                        <option value="">-- Select Machine --</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Operator</label>
+                    <select asp-for="OperatorEmployeeId" asp-items="Model.Operators" class="form-select">
+                        <option value="">-- Select Operator --</option>
+                    </select>
+                </div>
+
+                <hr />
+
+                <!-- DETAIL -->
+                <h5>Detail Produk</h5>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Target Qty</th>
+                            <th>Actual</th>
+                            <th>Reject</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="detailTable">
+                        @for (int i = 0; i < Model.Details.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <select asp-for="Details[@i].ProductId"
+                                            asp-items="Model.Details[@i].Products"
+                                            class="form-select">
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <input asp-for="Details[@i].TargetQty" class="form-control" />
+                                </td>
+
+                                <td>
+                                    <input asp-for="Details[@i].ActualQty" class="form-control" />
+                                </td>
+
+                                <td>
+                                    <input asp-for="Details[@i].RejectQty" class="form-control" />
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm removeRow">X</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <button type="button" id="addRow" class="btn btn-success btn-sm">
+                    + Add Row
+                </button>
+
+                <!-- TOTAL -->
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Total Target</label>
+                        <input type="text" id="totalTarget" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Total Actual</label>
+                        <input type="text" id="totalActual" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Total Reject</label>
+                        <input type="text" id="totalReject" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <hr />
+
+                <button class="btn btn-warning">Update</button>
+                <a asp-action="Index" class="btn btn-secondary">Back</a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let index = @Model.Details.Count;
+
+        // =========================
+        // ADD ROW
+        // =========================
+        document.getElementById("addRow").addEventListener("click", function () {
+
+            let row = `
+                <tr>
+                    <td>
+                        <select name="Details[${index}].ProductId" class="form-select">
+                            ${getProductOptions()}
+                        </select>
+                    </td>
+                    <td>
+                        <input name="Details[${index}].TargetQty" class="form-control" />
+                    </td>
+                    <td>
+                        <input name="Details[${index}].ActualQty" class="form-control" />
+                    </td>
+                    <td>
+                        <input name="Details[${index}].RejectQty" class="form-control" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm removeRow">X</button>
+                    </td>
+                </tr>
+            `;
+
+            document.getElementById("detailTable").insertAdjacentHTML("beforeend", row);
+
+            index++;
+
+            calculateTotal();
+        });
+
+        // =========================
+        // PRODUCT OPTIONS
+        // =========================
+        function getProductOptions() {
+            let options = '';
+
+            @foreach (var p in Model.Products)
+            {
+                <text>
+                    options += `<option value="@p.Value">@p.Text</option>`;
+                </text>
+            }
+
+            return options;
+        }
+
+        // =========================
+        // REMOVE ROW
+        // =========================
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("removeRow")) {
+                e.target.closest("tr").remove();
+                calculateTotal();
+            }
+        });
+
+        // =========================
+        // CALCULATE TOTAL
+        // =========================
+        function calculateTotal() {
+            let totalTarget = 0;
+            let totalActual = 0;
+            let totalReject = 0;
+
+            document.querySelectorAll("input[name*='TargetQty']").forEach(x => {
+                totalTarget += parseInt(x.value) || 0;
+            });
+
+            document.querySelectorAll("input[name*='ActualQty']").forEach(x => {
+                totalActual += parseInt(x.value) || 0;
+            });
+
+            document.querySelectorAll("input[name*='RejectQty']").forEach(x => {
+                totalReject += parseInt(x.value) || 0;
+            });
+
+            document.getElementById("totalTarget").value = totalTarget;
+            document.getElementById("totalActual").value = totalActual;
+            document.getElementById("totalReject").value = totalReject;
+        }
+
+        // =========================
+        // REALTIME INPUT
+        // =========================
+        document.addEventListener("input", function (e) {
+            if (
+                e.target.name.includes("TargetQty") ||
+                e.target.name.includes("ActualQty") ||
+                e.target.name.includes("RejectQty")
+            ) {
+                calculateTotal();
+            }
+        });
+
+        // =========================
+        // LOAD
+        // =========================
+        window.onload = function () {
+            calculateTotal();
+        };
+    </script>
+}

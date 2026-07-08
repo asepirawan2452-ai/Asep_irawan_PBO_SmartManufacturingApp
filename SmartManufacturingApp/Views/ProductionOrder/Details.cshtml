@@ -1,0 +1,137 @@
+@model SmartManufacturingApp.Models.ProductionOrder
+
+@{
+    ViewData["Title"] = "Production Order Detail";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-info text-white">
+
+            <h4>Production Order Detail</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th width="220">Work Order Number</th>
+                    <td>@Model.WorkOrderNumber</td>
+                </tr>
+
+                <tr>
+                    <th>Production Date</th>
+                    <td>@Model.ProductionDate.ToString("dd/MM/yyyy")</td>
+                </tr>
+
+                <tr>
+                    <th>Machine</th>
+                    <td>@Model.Machine?.MachineName</td>
+                </tr>
+
+                <tr>
+                    <th>Operator</th>
+                    <td>@Model.OperatorEmployee?.FullName</td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>@Model.Status</td>
+                </tr>
+
+            </table>
+
+            <hr />
+
+            <h5>Production Items</h5>
+
+            <table class="table table-striped table-bordered">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>No</th>
+
+                        <th>Product</th>
+
+                        <th>Target Qty</th>
+
+                        <th>Actual Qty</th>
+
+                        <th>Reject Qty</th>
+
+                        <th>Efficiency (%)</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @{
+                        int no = 1;
+                    }
+
+                    @foreach (var item in Model.Details)
+                    {
+                        decimal efficiency = 0;
+
+                        if (item.TargetQty > 0)
+                        {
+                            efficiency = (decimal)item.ActualQty / item.TargetQty * 100;
+                        }
+
+                        <tr>
+
+                            <td>@no</td>
+
+                            <td>@item.Product?.ProductName</td>
+
+                            <td>@item.TargetQty</td>
+
+                            <td>@item.ActualQty</td>
+
+                            <td>@item.RejectQty</td>
+
+                            <td>@efficiency.ToString("N2") %</td>
+
+                        </tr>
+
+                        no++;
+                    }
+
+                </tbody>
+
+            </table>
+
+            <hr />
+
+            <div class="text-end">
+
+                <a asp-action="EditResult"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-warning">
+
+                    Update Production Result
+
+                </a>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Back
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
