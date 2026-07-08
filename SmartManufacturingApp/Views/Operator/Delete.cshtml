@@ -1,0 +1,48 @@
+@model SmartManufacturingApp.Models.OperatorEmployee
+
+@{
+    ViewData["Title"] = "Delete Operator";
+}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-danger text-white">
+<h4>Delete Operator</h4>
+</div>
+
+<div class="card-body">
+
+<h5>Yakin ingin menghapus data ini?</h5>
+
+<hr/>
+
+<p><b>Employee Code :</b> @Model.EmployeeCode</p>
+
+<p><b>Full Name :</b> @Model.FullName</p>
+
+<p><b>Department :</b> @Model.Department</p>
+
+<form asp-action="Delete">
+
+<input asp-for="Id" type="hidden"/>
+
+@Html.AntiForgeryToken()
+
+<button class="btn btn-danger">
+Delete
+</button>
+
+<a asp-action="Index"
+class="btn btn-secondary">
+Cancel
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>

@@ -1,0 +1,77 @@
+@model SmartManufacturingApp.Models.OperatorEmployee
+
+@{
+    ViewData["Title"] = "Detail Operator";
+}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-info text-white">
+<h4>Operator Detail</h4>
+</div>
+
+<div class="card-body">
+
+<table class="table">
+
+<tr>
+
+<th width="200">Employee Code</th>
+
+<td>@Model.EmployeeCode</td>
+
+</tr>
+
+<tr>
+
+<th>Full Name</th>
+
+<td>@Model.FullName</td>
+
+</tr>
+
+<tr>
+
+<th>Department</th>
+
+<td>@Model.Department</td>
+
+</tr>
+
+<tr>
+
+<th>Status</th>
+
+<td>
+
+@if(Model.IsActive)
+{
+<span class="badge bg-success">
+Active
+</span>
+}
+else
+{
+<span class="badge bg-danger">
+Inactive
+</span>
+}
+
+</td>
+
+</tr>
+
+</table>
+
+<a asp-action="Index"
+class="btn btn-secondary">
+Back
+</a>
+
+</div>
+
+</div>
+
+</div>
