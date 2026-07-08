@@ -1,0 +1,58 @@
+@model SmartManufacturingApp.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-danger text-white">
+<h4>Delete Product</h4>
+</div>
+
+<div class="card-body">
+
+<h5>Yakin ingin menghapus data ini?</h5>
+
+<table class="table">
+
+<tr>
+<th>Product Code</th>
+<td>@Model.ProductCode</td>
+</tr>
+
+<tr>
+<th>Product Name</th>
+<td>@Model.ProductName</td>
+</tr>
+
+<tr>
+<th>Category</th>
+<td>@Model.Category</td>
+</tr>
+
+</table>
+
+<form asp-action="Delete">
+
+<input type="hidden"
+       asp-for="Id"/>
+
+<button class="btn btn-danger">
+Delete
+</button>
+
+<a asp-action="Index"
+   class="btn btn-secondary">
+Back
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>

@@ -1,0 +1,160 @@
+@model IEnumerable<SmartManufacturingApp.Models.Product>
+
+@{
+    ViewData["Title"] = "Product";
+}
+
+<div class="container mt-4">
+
+    <partial name="_Alert" />
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+            <h4 class="mb-0">
+                Product Management
+            </h4>
+
+            <a asp-action="Create" class="btn btn-light">
+                + Add Product
+            </a>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="get" class="row mb-3">
+
+                <div class="col-md-5">
+
+                    <input name="keyword"
+                           value="@ViewBag.Keyword"
+                           class="form-control"
+                           placeholder="Search Product..." />
+
+                </div>
+
+                <div class="col-md-auto">
+
+                    <button class="btn btn-primary">
+                        Search
+                    </button>
+
+                </div>
+
+                <div class="col-md-auto">
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning">
+                    Data Product belum tersedia.
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Code</th>
+
+                            <th>Product Name</th>
+
+                            <th>Category</th>
+
+                            <th>Unit</th>
+
+                            <th>Standard Cost</th>
+
+                            <th>Status</th>
+
+                            <th width="230">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.ProductCode</td>
+
+                                <td>@item.ProductName</td>
+
+                                <td>@item.Category</td>
+
+                                <td>@item.Unit</td>
+
+                                <td>
+                                    @item.StandardCost.ToString("N0")
+                                </td>
+
+                                <td>
+
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Inactive
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-info btn-sm">
+                                        Detail
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-warning btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-danger btn-sm">
+                                        Delete
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            }
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,77 @@
+@model SmartManufacturingApp.Models.Product
+
+@{
+    ViewData["Title"] = "Detail Product";
+}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-info text-white">
+<h4>Product Detail</h4>
+</div>
+
+<div class="card-body">
+
+<table class="table">
+
+<tr>
+<th>Product Code</th>
+<td>@Model.ProductCode</td>
+</tr>
+
+<tr>
+<th>Product Name</th>
+<td>@Model.ProductName</td>
+</tr>
+
+<tr>
+<th>Category</th>
+<td>@Model.Category</td>
+</tr>
+
+<tr>
+<th>Unit</th>
+<td>@Model.Unit</td>
+</tr>
+
+<tr>
+<th>Standard Cost</th>
+<td>@Model.StandardCost</td>
+</tr>
+
+<tr>
+<th>Status</th>
+<td>
+
+@if(Model.IsActive)
+{
+<span class="badge bg-success">Active</span>
+}
+else
+{
+<span class="badge bg-danger">Inactive</span>
+}
+
+</td>
+</tr>
+
+</table>
+
+<a asp-action="Edit"
+   asp-route-id="@Model.Id"
+   class="btn btn-warning">
+    Edit
+</a>
+
+<a asp-action="Index"
+   class="btn btn-secondary">
+    Back
+</a>
+
+</div>
+
+</div>
+
+</div>
